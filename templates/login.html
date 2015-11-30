@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <a href="{{ url_for('login') }}">
+  <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_large_border.png" width="118" height="51" border="0">
+</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <div class=console>
+  <h3>User {{ user.id }}</h3>
+  <div>
+    <table>
+    <tr><strong>User ID</strong></td>
+    <tr>Steam ID</td>
+    <tr>Nickname</td>
+    <tr>Role</td>
+      <td>{{ user.id }}</td>
+      <td>{{ user.steam_id }}</td>
+      <td>{{ user.nickname }}</td>
+      <td>{{ user.role_id }}</td>
+    </table>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post action="/user/{{ user.id }}">
+      <dl>
+        {{ render_field(form.role) }}
+      </dl>
+      <p><input type=submit value=Update>
+    </form>
+  </div>
+  </div>
+{% endblock %}

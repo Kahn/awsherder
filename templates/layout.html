@@ -1,0 +1,50 @@
+<!doctype html>
+<head>
+<title>AWS Herder</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<!-- <script src="{{ url_for('static', filename='awsherder.js') }}"></script> -->
+
+<script>
+var _prum = [['id', '{{ config.PINGDOM_RUM_ID }}'],
+             ['mark', 'firstbyte', (new Date()).getTime()]];
+(function() {
+    var s = document.getElementsByTagName('script')[0]
+      , p = document.createElement('script');
+    p.async = 'async';
+    p.src = '//rum-static.pingdom.net/prum.min.js';
+    s.parentNode.insertBefore(p, s);
+})();
+</script>
+
+</head>
+<div class=page>
+  <h1><a href="{{ url_for('landingpage') }}">AWS Herder</a></h1>
+  <div class=metanav>
+  {% if not g.user %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% else %}
+    <p><img src="{{ g.user.avatar_url }}" border="0"></p>
+    <p>Logged in as: {{ g.user.nickname }}! | <a href="{{ url_for('logout') }}">log out</a></p>
+  {% endif %}
+  </div>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% if g.user %}
+  <h2><a href={{ url_for('console') }}>Console</a> | <a href={{ url_for('users') }}>Users</a></h2>
+  {% endif %}
+  {% block body %}{% endblock %}
+  <div class=footer>
+  <hr>
+  <p><a href="http://steampowered.com">Powered by Steam</a> | <a href="http://cycloptivity.net">cycloptivity.net</a> | <a href="https://github.com/Kahn/awsherder">Fork It</a></p>
+  {% if config.DEBUG == 'True' %}
+  <p>Debug: {{ config.DEBUG }}</p>
+  {% endif %}
+  </div>
+</div>

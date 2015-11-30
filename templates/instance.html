@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <div class=console>
+  <h3>AWS - {{ instance_id }}</h3>
+  <p><a href={{ url_for('instance_shutdown', instance_id=instance_id) }}>Shutdown instance</a></p>
+  <div class=arkconsole>
+  <h3>ARK</h3>
+  <h4>{{ serveraddress }}</h4>
+  <ul>
+  {% if ark_serverinfo.ark_process_status == 'online' %}
+  <li>ARK Process status: <span class=green>{{ ark_serverinfo.ark_process_status }}</span></li>
+  {% else %}
+  <li>ARK Process status: <span class=red>{{ ark_serverinfo.ark_process_status }}</span></li>
+  {% endif %}
+
+  {% if ark_serverinfo.ark_server_status == 'online' %}
+  <li>ARK Server status: <span class=green>{{ ark_serverinfo.ark_server_status }}</span></li>
+  {% else %}
+  <li>ARK Server status: <span class=red>{{ ark_serverinfo.ark_server_status }}</span></li>
+  {% endif %}
+
+  <li>ARK Version: {{ ark_serverinfo.ark_version }}</li>
+  </ul>
+  </div>
+  </div>
+{% endblock %}

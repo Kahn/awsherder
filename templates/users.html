@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <div class=console>
+  <h3>Users</h3>
+  <div>
+  {% if users %}
+    <table class=usertable>
+    <tr>
+    <td><strong>User ID</strong></td>
+    <td>Steam ID</td>
+    <td>Nickname</td>
+    <td>Role</td>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td><a href={{ url_for('user', user_id=user.id) }}>{{ user.id }}</a></td>
+      <td>{{ user.steam_id }}</td>
+      <td>{{ user.nickname }}</td>
+      <td>{{ user.role_id }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+  {% endif %}
+  </div>
+  </div>
+{% endblock %}

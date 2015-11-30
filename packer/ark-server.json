@@ -1,0 +1,53 @@
+{
+  "builders": [
+    {
+      "name": "ami",
+      "type": "amazon-ebs",
+      "region": "ap-southeast-2",
+      "source_ami": "ami-de227bbd",
+      "vpc_id": "vpc-d7e03db2",
+      "subnet_id": "subnet-760e6713",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ssh_timeout": "5m",
+      "ami_name": "ARK Server {{timestamp}}",
+      "tags": {
+        "Name": "ARK Server"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "set -ve",
+        "sudo apt-get update",
+        "sudo apt-get -y install python-pip python-dev",
+        "sudo pip install ansible==1.9.2",
+        "mkdir /tmp/packer-provisioner-ansible-local"
+        ]
+    },
+    {
+      "type": "file",
+      "source": "ansible/requirements.yml",
+      "destination": "/tmp/packer-provisioner-ansible-local/requirements.yml"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "set -ve",
+        "ansible-galaxy install -r /tmp/packer-provisioner-ansible-local/requirements.yml --force -p /tmp/packer-provisioner-ansible-local/roles"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/site.yml",
+      "playbook_dir": "ansible",
+      "inventory_file": "ansible/inventory/packer",
+      "extra_arguments": [
+        "--sudo"
+      ]
+    }
+  ]
+}

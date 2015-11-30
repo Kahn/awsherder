@@ -1,0 +1,32 @@
+---
+
+- hosts: packer
+
+  sudo: yes
+
+  vars:
+    # Creates a user to own the steam application.
+    steamcmd_user: steam
+    # Defines the home directory for the steamcmd_user
+    steamcmd_user_homedir: /home/{{ steamcmd_user }}
+    # Points to the steamcmd package from Valve
+    steamcmd_url: https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+    # Forces steamcmd to execute, defaults to true to ensure steamcmd is functional before the role exits
+    steamcmd_run_steamcmd: true
+
+    arkservertools_url: "https://github.com/FezVrasta/ark-server-tools/archive/master.tar.gz"
+    arkservertools_user: "{{ steamcmd_user }}"
+    arkservertools_user_homedir: "{{ steamcmd_user_homedir }}"
+
+    arkservertools_ark_RCONPort: 32330
+    arkservertools_ark_SessionName: ARK
+    arkservertools_ark_Port: 7778
+    arkservertools_ark_QueryPort: 27016
+    # If your using passwords and a public DCVS **ensure** you use ansible-vault!
+    #arkservertools_ark_ServerPassword:
+    arkservertools_ark_ServerAdminPassword: keyboardcat
+    arkservertools_ark_MaxPlayers: 70
+
+  roles:
+    - kahn.steamcmd
+    - kahn.arkservertools

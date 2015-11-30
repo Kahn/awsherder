@@ -1,0 +1,9 @@
+Flask==0.10.1
+Flask-OpenID
+Flask-SQLAlchemy
+Flask-WTF
+Flask-SSLify
+SQLAlchemy
+python-openid
+boto
+wtforms
